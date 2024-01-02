@@ -2,6 +2,8 @@ package ie.atu.product_repository_microservice;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 public class ProductController {
     private final ProductService productService;
@@ -21,5 +23,18 @@ public class ProductController {
     public String removeProduct(@PathVariable Long productId){
         productService.removeProduct(productId);
         return String.format("Product with code: %s, has been removed", productId);
+    }
+
+    @GetMapping("/find/{productId}")
+    public String findProduct(@PathVariable Long productId) {
+        Optional<ProductDetails> optionalProductDetails = productService.findProduct(productId);
+
+        if (optionalProductDetails.isPresent()) {
+            ProductDetails productDetails = optionalProductDetails.get();
+            String productName = productDetails.getName();
+            return String.format("Product: %s, with code: %s, has been found", productName, productId);
+        } else {
+            return String.format("Product with code: %s not found", productId);
+        }
     }
 }

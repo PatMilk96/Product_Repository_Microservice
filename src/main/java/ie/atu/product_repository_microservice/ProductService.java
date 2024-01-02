@@ -2,6 +2,8 @@ package ie.atu.product_repository_microservice;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -15,5 +17,9 @@ public class ProductService {
 
     public void removeProduct(Long productId) {
         productRepository.deleteById(productId);
+    }
+
+    public Optional<ProductDetails> findProduct(Long productId) {
+        return productRepository.findById(productId);
     }
 }
