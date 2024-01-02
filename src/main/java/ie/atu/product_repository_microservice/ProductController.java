@@ -1,9 +1,6 @@
 package ie.atu.product_repository_microservice;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
@@ -18,5 +15,11 @@ public class ProductController {
     public String addProduct(@RequestBody ProductDetails productDetails){
         productService.addProduct(productDetails);
         return String.format("Product: %s, has been added", productDetails.getName());
+    }
+
+    @GetMapping("/remove/{productId}")
+    public String removeProduct(@PathVariable Long productId){
+        productService.removeProduct(productId);
+        return String.format("Product with code: %s, has been removed", productId);
     }
 }
