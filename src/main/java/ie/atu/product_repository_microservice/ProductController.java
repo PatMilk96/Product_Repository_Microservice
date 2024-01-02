@@ -20,9 +20,15 @@ public class ProductController {
     }
 
     @GetMapping("/remove/{productId}")
-    public String removeProduct(@PathVariable Long productId){
-        productService.removeProduct(productId);
-        return String.format("Product with code: %s, has been removed", productId);
+    public String removeProduct(@PathVariable Long productId) {
+        Optional<ProductDetails> optionalProductDetails = productService.findProduct(productId);
+
+        if (optionalProductDetails.isPresent()) {
+            productService.removeProduct(productId);
+            return String.format("Product with code: %s, has been removed", productId);
+        } else {
+            return String.format("Product with code: %s not found, cannot be removed", productId);
+        }
     }
 
     @GetMapping("/find/{productId}")
