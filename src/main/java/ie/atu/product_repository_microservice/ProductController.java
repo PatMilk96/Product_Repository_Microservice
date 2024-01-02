@@ -1,5 +1,6 @@
 package ie.atu.product_repository_microservice;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@RequestBody ProductDetails productDetails){
+    public String addProduct(@RequestBody @Valid ProductDetails productDetails){
         productService.addProduct(productDetails);
         return String.format("Product: %s, has been added", productDetails.getName());
     }
