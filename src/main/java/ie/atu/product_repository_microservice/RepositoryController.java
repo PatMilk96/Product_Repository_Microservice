@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-public class ProductController {
-    private final ProductService productService;
+public class RepositoryController {
+    private final RepositoryService productService;
 
 
-    public ProductController(ProductService productService){
+    public RepositoryController(RepositoryService productService){
         this.productService = productService;
     }
 
