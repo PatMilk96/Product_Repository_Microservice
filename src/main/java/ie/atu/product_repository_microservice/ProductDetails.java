@@ -28,4 +28,8 @@ public class ProductDetails {
 
     @NotNull(message = "Product Code cannot be blank")
     private Long productCode;
+
+    @NotNull(message = "Product amount cannot be empty")
+    @Min(0)
+    private Integer amount;
 }
