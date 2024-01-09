@@ -1,6 +1,7 @@
 package ie.atu.product_repository_microservice;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,25 +47,25 @@ public class RepositoryController {
     }
 
     @PutMapping("/buy/{productId}/{amountWanted}")
-    public String buyProduct(@PathVariable Long productId, @PathVariable int amountWanted){
+    public ResponseEntity<String> buyProduct(@PathVariable Long productId, @PathVariable int amountWanted){
         Optional<ProductDetails> optionalProductDetails = repositoryService.findProduct(productId);
-        if (optionalProductDetails.isPresent()){
+        if (optionalProductDetails.isPresent()) {
             ProductDetails productDetails = optionalProductDetails.get();
             int stockAmount = productDetails.getAmount();
-            if(stockAmount == 0){
-                return "We're sorry, but this product is out of stock";
-            }
-            else if(stockAmount < amountWanted){
-                return "Sorry, we only have " +  stockAmount + " of " +  productDetails.getName() + " left in stock :(";
-            }
-            else{
+
+            if (stockAmount == 0) {
+                return ResponseEntity.status(HttpStatus.OK).body("We're sorry, but this product is out of stock");
+            } else if (stockAmount < amountWanted) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body("Sorry, we only have " + stockAmount + " of " + productDetails.getName() + " left in stock :(");
+            } else {
                 int updatedStock = stockAmount - amountWanted;
                 repositoryService.updateProduct(productId, updatedStock);
-                return "Thank You for your purchase. Your total is " + (productDetails.getPrice() * amountWanted)  + "\nYour tracking number is " + UUID.randomUUID();
+                String trackNum = String.valueOf(UUID.randomUUID());
+                return ResponseEntity.ok(trackNum);
             }
-        }
-        else{
-            return "Product not found";
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body("Product not found");
         }
     }
 }
