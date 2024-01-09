@@ -1,5 +1,6 @@
 package ie.atu.product_repository_microservice;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,5 +22,10 @@ public class RepositoryService {
 
     public Optional<ProductDetails> findProduct(Long productId) {
         return productRepository.findById(productId);
+    }
+
+    @Transactional
+    public void updateProduct(Long productId, int updatedStock) {
+        productRepository.updateStock(productId, updatedStock);
     }
 }
