@@ -13,6 +13,10 @@ public class RepositoryService {
         this.productRepository = productRepository;
     }
     public void addProduct(ProductDetails productDetails) {
+        Long productCode = productDetails.getProductCode();
+        if(productRepository.existsByProductCode(productCode)){
+            throw new ProductAlreadyExistsException("A product with the same product code already exists");
+        }
         productRepository.save(productDetails);
     }
 
