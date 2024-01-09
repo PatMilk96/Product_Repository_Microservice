@@ -50,6 +50,7 @@ public class RepositoryController {
         Optional<ProductDetails> optionalProductDetails = repositoryService.findProduct(productId);
         if (optionalProductDetails.isPresent()){
             ProductDetails productDetails = optionalProductDetails.get();
+            String trackNum = String.valueOf(UUID.randomUUID());
             int stockAmount = productDetails.getAmount();
             if(stockAmount == 0){
                 return "We're sorry, but this product is out of stock";
@@ -60,7 +61,7 @@ public class RepositoryController {
             else{
                 int updatedStock = stockAmount - amountWanted;
                 repositoryService.updateProduct(productId, updatedStock);
-                return "Thank You for your purchase. Your total is " + (productDetails.getPrice() * amountWanted)  + "\nYour tracking number is " + UUID.randomUUID();
+                return trackNum;
             }
         }
         else{
