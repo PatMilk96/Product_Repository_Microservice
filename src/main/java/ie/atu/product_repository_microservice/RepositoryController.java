@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+import java.util.UUID;
 @RestController
 public class RepositoryController {
     private final RepositoryService repositoryService;
@@ -29,7 +29,7 @@ public class RepositoryController {
             repositoryService.removeProduct(productId);
             return String.format("Product with code: %s, has been removed", productId);
         } else {
-            return String.format("Product with code: %s not found, cannot be removed", productId);
+            return String.format("Product with Id: %s not found, cannot be removed", productId);
         }
     }
 
@@ -60,7 +60,7 @@ public class RepositoryController {
             else{
                 int updatedStock = stockAmount - amountWanted;
                 repositoryService.updateProduct(productId, updatedStock);
-                return "Thank You for your purchase. Your total is " + (productDetails.getPrice() * amountWanted)  + "\nYour tracking number is 4391c2-241v-11d2290";
+                return "Thank You for your purchase. Your total is " + (productDetails.getPrice() * amountWanted)  + "\nYour tracking number is " + UUID.randomUUID();
             }
         }
         else{
